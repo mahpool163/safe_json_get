@@ -8,7 +8,8 @@ extension JsonObjectX on JsonObject {
     return switch (this[key]) {
       int value => value,
       num value => value.toInt(),
-      dynamic value => value == null ? defaultValue : int.tryParse('$value'),
+      null => defaultValue,
+      dynamic value => int.tryParse('$value') ?? defaultValue,
     };
   }
 
@@ -16,17 +17,20 @@ extension JsonObjectX on JsonObject {
     return switch (this[key]) {
       double value => value,
       num value => value.toDouble(),
-      dynamic value => value == null ? defaultValue : double.tryParse('$value'),
+      null => defaultValue,
+      dynamic value => double.tryParse('$value') ?? defaultValue,
     };
   }
 
   String? valString(String key, {String? defaultValue}) => switch (this[key]) {
         String value => value,
+        null => defaultValue,
         dynamic value => value?.toString() ?? defaultValue,
       };
 
   bool? valBool(String key, {bool? defaultValue}) => switch (this[key]) {
         bool value => value,
+        null => defaultValue,
         dynamic value =>
           bool.tryParse('$value', caseSensitive: false) ?? defaultValue,
       };
